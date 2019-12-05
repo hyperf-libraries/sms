@@ -61,7 +61,7 @@ Abstract class GatewayAbstract implements GatewayInterface
      */
     public function getName()
     {
-        return \strtolower(str_replace([__NAMESPACE__.'\\', 'Gateway'], '', \get_class($this)));
+        return strtolower(str_replace([__NAMESPACE__.'\\', 'Gateway'], '', get_class($this)));
     }
 
 }
