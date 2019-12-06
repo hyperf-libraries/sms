@@ -1,6 +1,6 @@
 <?php
 /**
- * 短信服务商网关接口类
+ * 配置文件
  *
  * @link     http://www.swoole.red
  * @contact  1712715552@qq.com
