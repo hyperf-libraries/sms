@@ -20,12 +20,12 @@ class QcloudGateway extends GatewayAbstract
     const ENDPOINT_URL = 'https://yun.tim.qq.com/v5/';
     const ENDPOINT_METHOD = 'tlssmssvr/sendsms';
     /**
-     * @param \HyperfLibraries\Sms\Contract\PhoneNumberInterface $to
-     * @param \HyperfLibraries\Sms\Contract\MessageInterface     $message
+     * @param PhoneNumberInterface $to
+     * @param MessageInterface     $message
      *
      * @return array
      *
-     * @throws \HyperfLibraries\Sms\Exception\GatewayErrorException;
+     * @throws GatewayErrorException;
      */
     public function send(PhoneNumberInterface $to, MessageInterface $message)
     {
@@ -62,8 +62,8 @@ class QcloudGateway extends GatewayAbstract
             'headers' => ['Accept' => 'application/json'],
             'json' => $params,
         ]);
-        if (isset($result['result']) && 0 != $result['result']) {
-            throw new GatewayErrorException($result['errmsg'], $result['result'], $result);
+        if (isset($result['ActionStatus']) && $result['ActionStatus'] === 'FAIL') {
+            throw new GatewayErrorException($result['ErrorInfo'], $result['ErrorCode'], $result);
         }
         return $result;
     }

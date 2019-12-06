@@ -14,6 +14,7 @@ use PHPUnit\Framework\TestCase;
 use HyperfLibraries\Sms\SmsFactory;
 use HyperfLibraries\Sms\Sms;
 use Mockery;
+use HyperfLibraries\Sms\Exception\NoGatewayAvailableException;
 
 class SmsTest extends TestCase
 {
@@ -22,16 +23,21 @@ class SmsTest extends TestCase
      */
     public function testQcloud()
     {
-        $client = $this->getClient();
+        try{
+            $client = $this->getClient();
+            $result = $client->send('', [ //手机号码
+                                          'content'  => '', //短信内容
+                                          'template' => '', //模板id
+                                          'data' => [
+                                              'code' => 6379 //验证码
+                                          ]
+            ]);
+            $this->assertEquals($result['qcloud']['status'], 'success');
+        }catch (NoGatewayAvailableException $exception) {
+            echo $exception->getException('qcloud')->getMessage();
+        }
 
-        $result = $client->send('', [ //手机号码
-            'content'  => '', //短信内容
-            'template' => '', //模板id
-            'data' => [
-                'code' => 6379 //验证码
-            ]
-        ]);
-        $this->assertEquals($result['qcloud']['status'], 'success');
+
     }
 
     protected function getClient(){
