@@ -1,5 +1,5 @@
 {
-    "name": "okbox/sms",
+    "name": "hyperf-libraries/sms",
     "type": "library",
     "license": "MIT",
     "keywords": [
@@ -44,7 +44,7 @@
     },
     "extra": {
         "hyperf": {
-            "config": "Okbox\\Sms\\ConfigProvider"
+            "config": "HyperfLibraries\\Sms\\ConfigProvider"
         }
     }
 }
