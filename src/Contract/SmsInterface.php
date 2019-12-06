@@ -11,6 +11,9 @@ declare(strict_types=1);
 namespace HyperfLibraries\Sms\Contract;
 
 use Closure;
+use HyperfLibraries\Sms\Contract\MessageInterface;
+use HyperfLibraries\Sms\Exception\InvalidArgumentException;
+use HyperfLibraries\Sms\Exception\NoGatewayAvailableException;
 
 interface SmsInterface
 {
@@ -19,13 +22,13 @@ interface SmsInterface
      * 发送短信接口
      *
      * @param string|array                                       $to
-     * @param \HyperfLibraries\Sms\Contract\MessageInterface|array $message
+     * @param MessageInterface|array $message
      * @param array                                              $gateways
      *
      * @return array
      *
-     * @throws \HyperfLibraries\Sms\Exception\InvalidArgumentException
-     * @throws \HyperfLibraries\Sms\Exception\NoGatewayAvailableException
+     * @throws InvalidArgumentException
+     * @throws NoGatewayAvailableException
      */
     public function send($to, $message, array $gateways = []);
 

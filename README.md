@@ -79,15 +79,27 @@ $config = [
     ],
 ];
 
-$sms = new Sms($config);
+/**
+ * @var SmsInterface
+ */
+public $sms;
 
-$sms->send(13188888888, [
-    'content'  => '您的验证码为: 6379',
-    'template' => 'SMS_001',
-    'data' => [
-        'code' => 6379
-    ],
-]);
+public function __construct(SmsInterface $sms)
+{
+    $this->sms = $sms;
+}
+
+public function index()
+{
+    $result = $this->sms->send('18759557749', [
+        'content'  => '', //
+        'template' => '',
+        'data' => [
+            'code' => 6379
+        ]
+    ]);
+    return $result;
+}
 ```
 
 ## 短信内容

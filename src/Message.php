@@ -61,7 +61,7 @@ class Message implements MessageInterface
     /**
      * Return message content.
      *
-     * @param \HyperfLibraries\Sms\Contract\GatewayInterface|null $gateway
+     * @param GatewayInterface|null $gateway
      *
      * @return string
      */
@@ -72,7 +72,7 @@ class Message implements MessageInterface
     /**
      * Return the template id of message.
      *
-     * @param \HyperfLibraries\Sms\Contract\GatewayInterface|null $gateway
+     * @param GatewayInterface|null $gateway
      *
      * @return string
      */
@@ -111,7 +111,7 @@ class Message implements MessageInterface
         return $this;
     }
     /**
-     * @param \HyperfLibraries\Sms\Contract\GatewayInterface|null $gateway
+     * @param GatewayInterface|null $gateway
      *
      * @return array
      */

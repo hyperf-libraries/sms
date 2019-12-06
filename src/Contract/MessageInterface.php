@@ -9,6 +9,8 @@ declare(strict_types=1);
  */
 namespace HyperfLibraries\Sms\Contract;
 
+use HyperfLibraries\Sms\Contract\GatewayInterface;
+
 interface MessageInterface
 {
     const TEXT_MESSAGE = 'text';
@@ -22,7 +24,7 @@ interface MessageInterface
     /**
      * 返回消息内容
      *
-     * @param \HyperfLibraries\Sms\Contracts\GatewayInterface|null $gateway
+     * @param GatewayInterface|null $gateway
      *
      * @return string
      */
@@ -30,7 +32,7 @@ interface MessageInterface
     /**
      * 返回消息的模板id
      *
-     * @param \HyperfLibraries\Sms\Contracts\GatewayInterface|null $gateway
+     * @param GatewayInterface|null $gateway
      *
      * @return string
      */
@@ -38,7 +40,7 @@ interface MessageInterface
     /**
      * 返回消息的模板数据
      *
-     * @param \Overtrue\EasySms\Contracts\GatewayInterface|null $gateway
+     * @param GatewayInterface|null $gateway
      *
      * @return array
      */

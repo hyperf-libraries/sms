@@ -25,7 +25,7 @@ class Sender
     /**
      * Messenger constructor.
      *
-     * @param \HyperfLibraries\Sms\Sms $sms
+     * @param Sms $sms
      */
     public function __construct(Sms $sms)
     {
@@ -35,8 +35,8 @@ class Sender
     /**
      * Send a message.
      *
-     * @param \HyperfLibraries\Sms\Contract\PhoneNumberInterface $to
-     * @param \HyperfLibraries\Sms\Contract\MessageInterface $message
+     * @param PhoneNumberInterface $to
+     * @param MessageInterface $message
      * @param array $gateways
      *
      * @return array

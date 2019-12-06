@@ -14,12 +14,13 @@ class GatewayErrorException extends Exception
      * @var array
      */
     public $raw = [];
+
     /**
      * GatewayErrorException constructor.
      *
      * @param string $message
-     * @param int    $code
-     * @param array  $raw
+     * @param int $code
+     * @param array $raw
      */
     public function __construct($message, $code, array $raw = [])
     {

@@ -18,6 +18,7 @@ use HyperfLibraries\Sms\Exception\InvalidArgumentException;
 use Closure;
 use Hyperf\Contract\ConfigInterface;
 use HyperfLibraries\Sms\Contract\SmsInterface;
+use HyperfLibraries\Sms\Exception\NoGatewayAvailableException;
 
 class Sms implements SmsInterface
 {
@@ -55,13 +56,13 @@ class Sms implements SmsInterface
      * Send a message.
      *
      * @param string|array                                       $to
-     * @param \HyperfLibraries\Sms\Contract\MessageInterface|array $message
+     * @param MessageInterface|array $message
      * @param array                                              $gateways
      *
      * @return array
      *
-     * @throws \HyperfLibraries\Sms\Exception\InvalidArgumentException
-     * @throws \HyperfLibraries\Sms\Exception\NoGatewayAvailableException
+     * @throws InvalidArgumentException
+     * @throws NoGatewayAvailableException
      */
     public function send($to, $message, array $gateways = [])
     {
@@ -78,9 +79,9 @@ class Sms implements SmsInterface
      *
      * @param string $name
      *
-     * @return \HyperfLibraries\Sms\Contract\GatewayInterface
+     * @return GatewayInterface
      *
-     * @throws \HyperfLibraries\Sms\Exception\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function gateway($name)
     {
@@ -94,9 +95,9 @@ class Sms implements SmsInterface
      *
      * @param string|null $strategy
      *
-     * @return \HyperfLibraries\Sms\Contract\StrategyInterface
+     * @return StrategyInterface
      *
-     * @throws \HyperfLibraries\Sms\Exception\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function strategy($strategy = null)
     {
@@ -129,7 +130,7 @@ class Sms implements SmsInterface
     }
 
     /**
-     * @return \HyperfLibraries\Sms\Sender
+     * @return Sender
      */
     public function getSender()
     {
@@ -140,11 +141,9 @@ class Sms implements SmsInterface
      *
      * @param string $name
      *
-     * @throws \InvalidArgumentException
-     *
      * @return GatewayInterface
      *
-     * @throws \HyperfLibraries\Sms\Exception\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     protected function createGateway($name)
     {
@@ -165,9 +164,9 @@ class Sms implements SmsInterface
      * @param string $gateway
      * @param ConfigInterface  $config
      *
-     * @return \HyperfLibraries\Sms\Contract\GatewayInterface
+     * @return GatewayInterface
      *
-     * @throws \HyperfLibraries\Sms\Exception\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     protected function makeGateway($gateway, $config)
     {
@@ -217,9 +216,9 @@ class Sms implements SmsInterface
         return new PhoneNumber(\trim( (string) $number));
     }
     /**
-     * @param array|string|\HyperfLibraries\Sms\Contract\MessageInterface $message
+     * @param array|string|MessageInterface $message
      *
-     * @return \HyperfLibraries\Sms\Contract\MessageInterface
+     * @return MessageInterface
      */
     protected function formatMessage($message)
     {
@@ -239,7 +238,7 @@ class Sms implements SmsInterface
      *
      * @return array
      *
-     * @throws \HyperfLibraries\Sms\Exception\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     protected function formatGateways(array $gateways)
     {

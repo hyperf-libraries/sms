@@ -93,7 +93,7 @@ trait HasHttpRequest
      *
      * @param array $options
      *
-     * @return \GuzzleHttp\Client
+     * @return Client
      *
      * @codeCoverageIgnore
      */
@@ -104,7 +104,7 @@ trait HasHttpRequest
     /**
      * Convert response contents to json.
      *
-     * @param \Psr\Http\Message\ResponseInterface $response
+     * @param ResponseInterface $response
      *
      * @return ResponseInterface|array|string
      */

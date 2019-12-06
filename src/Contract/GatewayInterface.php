@@ -9,6 +9,9 @@ declare(strict_types=1);
  */
 namespace HyperfLibraries\Sms\Contract;
 
+use HyperfLibraries\Sms\Contract\PhoneNumberInterface;
+use HyperfLibraries\Sms\Contract\MessageInterface;
+
 interface GatewayInterface
 {
     /**
@@ -20,8 +23,8 @@ interface GatewayInterface
     /**
      * 发短信
      *
-     * @param \HyperfLibraries\Sms\Contracts\PhoneNumberInterface $to
-     * @param \HyperfLibraries\Sms\Contracts\MessageInterface     $message
+     * @param PhoneNumberInterface $to
+     * @param MessageInterface     $message
      *
      * @return array
      */
