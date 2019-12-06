@@ -64,9 +64,6 @@ $config = [
     ],
     // 可用的网关配置
     'gateways' => [
-        'errorlog' => [
-            'file' => '/tmp/easy-sms.log',
-        ],
         'yunpian' => [
             'api_key' => '',
         ],
@@ -92,10 +89,10 @@ public function __construct(SmsInterface $sms)
 public function index()
 {
     $result = $this->sms->send('18759557749', [
-        'content'  => '', //
-        'template' => '',
+        'content'  => '', // 短信内容
+        'template' => '', // 模板ID
         'data' => [
-            'code' => 6379
+            'code' => 6379 //验证码
         ]
     ]);
     return $result;
@@ -304,8 +301,6 @@ class OrderPaidMessage extends Message
     }
 }
 ```
-
-> 更多自定义方式请参考：[`Overtrue\EasySms\Message`](Overtrue\EasySms\Message;)
 
 发送自定义短信：
 
