@@ -86,7 +86,7 @@ class AliyunGateway extends GatewayAbstract
     protected function generateSign($params)
     {
         ksort($params);
-        $accessKeySecret = $this->config->get('sms.gateways.aliyun.access_key_secret');var_dump($params);
+        $accessKeySecret = $this->config->get('sms.gateways.aliyun.access_key_secret');
         $stringToSign = 'GET&%2F&'.urlencode(http_build_query($params, '', '&', PHP_QUERY_RFC3986));
 
         return base64_encode(hash_hmac('sha1', $stringToSign, $accessKeySecret.'&', true));
