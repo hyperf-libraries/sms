@@ -8,13 +8,14 @@ declare(strict_types=1);
  */
 namespace HyperfTest\Cases;
 use Hyperf\Config\Config;
-use Hyperf\Di\Container;
+use Psr\Container\ContainerInterface;
 use Hyperf\Utils\ApplicationContext;
 use PHPUnit\Framework\TestCase;
 use HyperfLibraries\Sms\SmsFactory;
 use HyperfLibraries\Sms\Sms;
 use Mockery;
 use HyperfLibraries\Sms\Exception\NoGatewayAvailableException;
+use Hyperf\Guzzle\ClientFactory;
 
 class SmsTest extends TestCase
 {
@@ -25,24 +26,24 @@ class SmsTest extends TestCase
     {
         try{
             $client = $this->getClient();
-            $result = $client->send('', [ //手机号码
-                                          'content'  => '', //短信内容
-                                          'template' => '', //模板id
+            $result = $client->send('18888888888', [ //手机号码
+                                          'content'  => '您正在申请手机注册，验证码为：${code}，5分钟内有效！', //短信内容
+                                          'template' => 'SMS_180342928', //模板id
                                           'data' => [
                                               'code' => 6379 //验证码
                                           ]
-            ]);
-            $this->assertEquals($result['qcloud']['status'], 'success');
+            ]);var_dump($result);
+            $this->assertEquals($result['aliyun']['status'], 'success');
         }catch (NoGatewayAvailableException $exception) {
-            echo $exception->getException('qcloud')->getMessage();
+            echo 'Error:' . $exception->getException('aliyun')->getMessage().' '.$exception->getException('aliyun')->getFile().' '.$exception->getException('aliyun')->getLine();
         }
 
 
     }
 
     protected function getClient(){
-        $container = Mockery::mock(Container::class);
-        ApplicationContext::setContainer($container);
+        $container = Mockery::mock(ContainerInterface::class);
+
 
         $config = new Config([
             'sms' => [
@@ -56,26 +57,27 @@ class SmsTest extends TestCase
 
                     // 默认可用的发送网关
                     'gateways' => [
-                        'qcloud',
+                        'aliyun',
                     ],
                 ],
                 // 可用的网关配置
                 'gateways' => [
-                    'qcloud' => [
-                        'sdk_app_id' => '', // SDK APP ID
-                        'app_key' => '', // APP KEY
-                        'sign_name' => '', // 短信签名，如果使用默认签名，该字段可缺省（对应官方文档中的sign）
-                    ],
+                        'aliyun' => [
+                            'access_key_id' => '',
+                            'access_key_secret' => '',
+                            'sign_name' => '',
+                        ],
                 ],
             ],
         ]);
 
-        $container->shouldReceive('get')
-            ->once()
-            ->with(Sms::class)
-            ->andReturn(new Sms($config));
+        $container->shouldReceive('get')->with(ClientFactory::class)->andReturn(new ClientFactory($container));
+        $container->shouldReceive('get')->with(Sms::class)->andReturn(new Sms($config));
+
+        ApplicationContext::setContainer($container);
 
         $factory = new SmsFactory();
+
         return $factory($container);
     }
 
