@@ -9,8 +9,9 @@ declare(strict_types=1);
 
 namespace HyperfLibraries\Sms;
 
+use Hyperf\Guzzle\ClientFactory;
 use Psr\Http\Message\ResponseInterface;
-use GuzzleHttp\Client;
+use Hyperf\Utils\ApplicationContext;
 
 trait HasHttpRequest
 {
@@ -89,17 +90,19 @@ trait HasHttpRequest
         return $options;
     }
     /**
-     * Return http client.
+     * Return http ClientFactory.
      *
      * @param array $options
      *
-     * @return Client
+     * @return ClientFactory
      *
      * @codeCoverageIgnore
      */
     protected function getHttpClient(array $options = [])
     {
-        return new Client($options);
+
+        $container = ApplicationContext::getContainer();
+        return $container->get(ClientFactory::class)->create($options);
     }
     /**
      * Convert response contents to json.
