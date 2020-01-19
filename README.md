@@ -44,7 +44,7 @@ $ composer require "hyperf-libraries/sms"
 ```
 
 ```
-php bin/hyperf.php vendor:publish hyperf-libraries/sms
+$ php bin/hyperf.php vendor:publish hyperf-libraries/sms
 ```
 
 ## 使用
