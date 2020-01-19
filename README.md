@@ -50,7 +50,7 @@ $ php bin/hyperf.php vendor:publish hyperf-libraries/sms
 ## 使用
 
 ```php
-use HyperfLibraries\Sms;
+use HyperfLibraries\Sms\Sms;
 
 $config = [
     // HTTP 请求的超时时间（秒）
