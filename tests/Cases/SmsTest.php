@@ -7,15 +7,9 @@ declare(strict_types=1);
  * @contact  1712715552@qq.com
  */
 namespace HyperfTest\Cases;
-use Hyperf\Config\Config;
-use Psr\Container\ContainerInterface;
-use Hyperf\Utils\ApplicationContext;
 use PHPUnit\Framework\TestCase;
-use HyperfLibraries\Sms\SmsFactory;
-use HyperfLibraries\Sms\Sms;
-use Mockery;
-use HyperfLibraries\Sms\Exception\NoGatewayAvailableException;
-use Hyperf\Guzzle\ClientFactory;
+use Hyperf\Guzzle\HandlerStackFactory;
+use Overtrue\EasySms\EasySms;
 
 class SmsTest extends TestCase
 {
@@ -24,65 +18,49 @@ class SmsTest extends TestCase
      */
     public function testQcloud()
     {
-        try{
-            $client = $this->getClient();
-            $result = $client->send('18888888888', [ //手机号码
-                                          'content'  => '您正在申请手机注册，验证码为：${code}，5分钟内有效！', //短信内容
-                                          'template' => 'SMS_180342928', //模板id
-                                          'data' => [
-                                              'code' => 6379 //验证码
-                                          ]
-            ]);var_dump($result);
-            $this->assertEquals($result['aliyun']['status'], 'success');
-        }catch (NoGatewayAvailableException $exception) {
-            echo 'Error:' . $exception->getException('aliyun')->getMessage().' '.$exception->getException('aliyun')->getFile().' '.$exception->getException('aliyun')->getLine();
-        }
-
-
-    }
-
-    protected function getClient(){
-        $container = Mockery::mock(ContainerInterface::class);
-
-
-        $config = new Config([
-            'sms' => [
-                // HTTP 请求的超时时间（秒）
-                'timeout' => 5.0,
-
-                // 默认发送配置
-                'default' => [
-                    // 网关调用策略，默认：顺序调用
-                    'strategy' => \HyperfLibraries\Sms\Strategy\OrderStrategy::class,
-
-                    // 默认可用的发送网关
-                    'gateways' => [
-                        'aliyun',
-                    ],
-                ],
-                // 可用的网关配置
+        $config = ['default' =>
+            [
+                // 网关调用策略，默认：顺序调用
+                'strategy' => \Overtrue\EasySms\Strategies\OrderStrategy::class,
+                // 默认可用的发送网关
                 'gateways' => [
-                        'aliyun' => [
-                            'access_key_id' => '',
-                            'access_key_secret' => '',
-                            'sign_name' => '',
-                        ],
+                    'qcloud'
                 ],
+            ],
+            // 可用的网关配置
+            'gateways' => [
+                'qcloud' => [
+                    'sdk_app_id' => '', // SDK APP ID
+                    'app_key' => '', // APP KEY
+                    'sign_name' => '', // 短信签名，如果使用默认签名，该字段可缺省（对应官方文档中的sign）
+                ],
+                //...
+            ],
+            'options' => [
+                'config' => [
+                    'handler' => (new HandlerStackFactory())->create([
+                        'min_connections' => 1,
+                        'max_connections' => 30,
+                        'wait_timeout' => 3.0,
+                        'max_idle_time' => 60,
+                    ]),
+                ],
+            ]
+        ];
+        $easySms = new EasySms($config);
+
+        $result = $easySms->send(18888888, [
+            'content'  => '{1}为您的登录验证码，请于5分钟内填写',
+            'template' => '12345',
+            'data' => [
+                'code' => 1234
             ],
         ]);
 
-        $container->shouldReceive('get')->with(ClientFactory::class)->andReturn(new ClientFactory($container));
-        $container->shouldReceive('get')->with(Sms::class)->andReturn(new Sms($config));
-
-        ApplicationContext::setContainer($container);
-
-        $factory = new SmsFactory();
-
-        return $factory($container);
+        $this->assertIsArray($result);
+        $this->assertArrayHasKey('qcloud', $result);
+        $this->assertArrayHasKey('status', $result['qcloud']);
+        $this->assertEquals($result['qcloud']['status'], 'success');
     }
 
-    protected function tearDown()
-    {
-        Mockery::close();
-    }
 }

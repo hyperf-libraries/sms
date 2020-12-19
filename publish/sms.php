@@ -6,18 +6,17 @@
  * @contact  1712715552@qq.com
  */
 
-return [
-    // HTTP 请求的超时时间（秒）
-    'timeout' => 5.0,
+use Hyperf\Guzzle\HandlerStackFactory;
 
+return [
     // 默认发送配置
     'default' => [
         // 网关调用策略，默认：顺序调用
-        'strategy' => \HyperfLibraries\Sms\Strategy\OrderStrategy::class,
+        'strategy' => \Overtrue\EasySms\Strategies\OrderStrategy::class,
 
         // 默认可用的发送网关
         'gateways' => [
-            'qcloud',
+            'qcloud', 'aliyun'
         ],
     ],
     // 可用的网关配置
@@ -27,5 +26,21 @@ return [
             'app_key' => '', // APP KEY
             'sign_name' => '', // 短信签名，如果使用默认签名，该字段可缺省（对应官方文档中的sign）
         ],
+        'aliyun' => [
+            'access_key_id' => '',
+            'access_key_secret' => '',
+            'sign_name' => '',
+        ],
+        //...
     ],
+    'options' => [
+        'config' => [
+            'handler' => (new HandlerStackFactory())->create([
+                'min_connections' => 1,
+                'max_connections' => 30,
+                'wait_timeout' => 3.0,
+                'max_idle_time' => 60,
+            ]),
+        ],
+    ]
 ];
