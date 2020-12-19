@@ -48,8 +48,7 @@ class SmsTest extends TestCase
             ]
         ];
         $easySms = new EasySms($config);
-
-        $result = $easySms->send(18888888, [
+        $result = $easySms->send(18888888888, [
             'content'  => '{1}为您的登录验证码，请于5分钟内填写',
             'template' => '12345',
             'data' => [
