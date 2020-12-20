@@ -13,9 +13,10 @@ php bin/hyperf.php vendor:publish hyperf-libraries/sms
 #### 3.基本调用
 
 ```
-use Overtrue\EasySms\EasySms;
 
-$easySms = new EasySms(config('sms'));
+use HyperfLibraries\Sms\Contract\SmsInterface;
+
+$easySms = ApplicationContext::getContainer()->get(SmsInterface::class);
 $result = $easySms->send(18888888888, [
     'content'  => '{1}为您的登录验证码，请于5分钟内填写',
     'template' => '12345',
