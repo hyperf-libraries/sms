@@ -15,6 +15,7 @@ php bin/hyperf.php vendor:publish hyperf-libraries/sms
 ```
 
 use HyperfLibraries\Sms\Contract\SmsInterface;
+use Hyperf\Utils\ApplicationContext;
 
 $easySms = ApplicationContext::getContainer()->get(SmsInterface::class);
 $result = $easySms->send(18888888888, [
