@@ -17,6 +17,7 @@ class ConfigProvider
     {
         return [
             'dependencies' => [
+                SmsInterface::class => SmsFactory::class
             ],
             'annotations' => [
                 'scan' => [
