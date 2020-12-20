@@ -1,4 +1,4 @@
-### 兼容overtrue/easy-sms携程化，方便hyperf用户方便使用，详细使用请参考：https://github.com/overtrue/easy-sms
+### 兼容overtrue/easy-sms携程化，hyperf用户方便使用，详细使用请参考：https://github.com/overtrue/easy-sms
 
 #### 1.安装
 ```
