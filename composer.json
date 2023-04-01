@@ -21,7 +21,7 @@
         "php": ">=7.1",
         "ext-json": "*",
         "ext-swoole": ">=4.4",
-        "hyperf/guzzle": "^2.0",
+        "hyperf/guzzle": "~3.0.0",
         "overtrue/easy-sms": "^1.2"
     },
     "require-dev": {
